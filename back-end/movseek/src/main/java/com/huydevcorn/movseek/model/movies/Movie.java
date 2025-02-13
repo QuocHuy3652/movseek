@@ -1,5 +1,8 @@
 package com.huydevcorn.movseek.model.movies;
 
+import com.huydevcorn.movseek.dto.response.CreditResponse;
+import com.huydevcorn.movseek.dto.response.KeywordResponse;
+import com.huydevcorn.movseek.dto.response.TrailerResponse;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.bson.types.ObjectId;
@@ -37,4 +40,7 @@ public class Movie {
     String title;
     double vote_average;
     int vote_count;
+    List<TrailerResponse> trailers;
+    List<KeywordResponse> keywords;
+    CreditResponse credits;
 }

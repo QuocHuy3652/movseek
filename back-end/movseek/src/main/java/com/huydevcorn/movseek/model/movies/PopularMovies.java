@@ -6,16 +6,28 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "movie_genres")
+@Document(collection = "movies_popular")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Genre {
+public class PopularMovies {
     @Id
     ObjectId _id;
+    boolean adult;
+    String backdrop_path;
+    int[] genre_ids;
     int id;
-    String name;
+    String original_language;
+    String original_title;
+    String overview;
+    double popularity;
+    String poster_path;
+    String release_date;
+    String title;
+    boolean video;
+    double vote_average;
+    int vote_count;
 }
