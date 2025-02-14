@@ -16,6 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TVGenre {
     @Id
     ObjectId _id;
-    int id;
+    long id;
     String name;
 }

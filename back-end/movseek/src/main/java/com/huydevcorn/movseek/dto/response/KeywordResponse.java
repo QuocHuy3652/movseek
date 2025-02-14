@@ -14,6 +14,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class KeywordResponse {
-    int id;
+    long id;
     String name;
 }

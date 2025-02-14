@@ -23,7 +23,7 @@ public class People {
     String deathday; // Use String to handle null values
     int gender;
     String homepage;
-    int id;
+    long id;
     String imdb_id;
     String known_for_department;
     String name;

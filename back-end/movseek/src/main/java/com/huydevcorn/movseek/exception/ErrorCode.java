@@ -17,6 +17,7 @@ public enum ErrorCode {
     PEOPLE_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "People not found", HttpStatus.NOT_FOUND),
     MOVIE_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Movie not found", HttpStatus.NOT_FOUND),
     TV_SHOW_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "TV show not found", HttpStatus.NOT_FOUND),
+    BLANK_QUERY(HttpStatus.BAD_REQUEST.value(), "Query cannot be blank", HttpStatus.BAD_REQUEST),
 //    USER_EXISTED(HttpStatus.BAD_REQUEST.value(), "Email existed", HttpStatus.BAD_REQUEST),
 //    EMPTY_EMAIL(1002, "Email cannot be empty", HttpStatus.BAD_REQUEST),
 //    INVALID_EMAIL(1003, "Email is not in correct format", HttpStatus.BAD_REQUEST),

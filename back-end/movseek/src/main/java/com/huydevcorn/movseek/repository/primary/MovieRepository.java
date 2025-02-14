@@ -24,5 +24,51 @@ public interface MovieRepository extends MongoRepository<Movie, ObjectId> {
     })
     List<Movie> findLatestMoviesTrailers(Pageable pageable);
 
+    @Aggregation(pipeline = {
+            "{ $match: { $or: [ " +
+                    "{ 'genres.name': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'original_title': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'overview': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'title': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'keywords.name': { $regex: ?0, $options: 'i' } } " +
+                    "] } }",
+            "{ $count: 'totalResults' }"
+    })
+    Optional<Long> countSearchMovies(String keyword);
 
+    @Aggregation(pipeline = {
+            "{ $match: { $or: [ " +
+                    "{ 'genres.name': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'original_title': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'overview': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'title': { $regex: ?0, $options: 'i' } }, " +
+                    "{ 'keywords.name': { $regex: ?0, $options: 'i' } } " +
+                    "] } }",
+    })
+    List<Movie> searchMovies(String keyword, Pageable pageable);
+
+
+    @Aggregation(pipeline = {
+            "{ $match: { 'id': { $in: ?0 } } }",
+            "{ $count: 'totalResults' }"
+    })
+    Optional<Long> countByIdIn(List<Long> ids);
+    @Query("{ 'id': { $in: ?0 } }")
+    List<Movie> findByIdIn(List<Long> ids, Pageable pageable);
+
+    @Aggregation(pipeline = {
+            "{ $match: { '_id': { $in: ?0 } } }",
+            "{ $count: 'totalResults' }"
+    })
+    Optional<Long> countBy_idIn(List<ObjectId> objectIds);
+    @Query("{ '_id': { $in: ?0 } }")
+    List<Movie> findBy_idIn(List<ObjectId> objectIds, Pageable pageable);
+
+    @Aggregation(pipeline = {
+            "{ $match: { 'genres.id': { $in: ?0 } } }",
+            "{ $count: 'totalResults' }"
+    })
+    Optional<Long> countByGenresIdIn(List<Long> genreIds);
+    @Query("{ 'genres.id': { $in: ?0 } }")
+    List<Movie> findByGenresIdIn(List<Long> genreIds, Pageable pageable);
 }

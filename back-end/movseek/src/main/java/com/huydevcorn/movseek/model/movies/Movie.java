@@ -21,9 +21,9 @@ import java.util.List;
 public class Movie {
     @Id
     ObjectId _id;
-    int id;
+    long id;
     String backdrop_path;
-    int budget;
+    long budget;
     List<MovieGenre> genres;
     String homepage;
     List<String> origin_country;
@@ -33,7 +33,7 @@ public class Movie {
     double popularity;
     String poster_path;
     String release_date;
-    int revenue;
+    long revenue;
     int runtime;
     String status;
     String tagline;

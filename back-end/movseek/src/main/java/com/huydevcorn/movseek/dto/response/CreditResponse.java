@@ -18,7 +18,7 @@ import java.util.List;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class CreditResponse {
     @Field("id")
-    int id;
+    long id;
     List<Credit> cast;
     List<Credit> crew;
 }

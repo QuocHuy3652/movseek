@@ -19,7 +19,7 @@ public class TVShow {
     int vote_count;
     String backdrop_path;
     TVGenre[] genres;
-    String id;
+    long id;
     String homepage;
     String[] origin_country;
     String original_language;

@@ -16,6 +16,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MovieGenre {
     @Id
     ObjectId _id;
-    int id;
+    long id;
     String name;
 }

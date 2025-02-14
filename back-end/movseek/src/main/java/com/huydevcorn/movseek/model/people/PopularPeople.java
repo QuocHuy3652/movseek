@@ -18,7 +18,7 @@ public class PopularPeople {
     ObjectId _id;
     boolean adult;
     int gender;
-    int id;
+    long id;
     String known_for_department;
     String name;
     String original_name;

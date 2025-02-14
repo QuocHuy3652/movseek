@@ -15,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class LatestTrailersResponse {
     TrailerResponse trailer;
-    int id;
+    long id;
     String poster_path;
     String backdrop_path;
     String title;

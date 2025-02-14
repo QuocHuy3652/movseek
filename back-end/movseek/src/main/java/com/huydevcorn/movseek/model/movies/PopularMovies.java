@@ -18,8 +18,8 @@ public class PopularMovies {
     ObjectId _id;
     boolean adult;
     String backdrop_path;
-    int[] genre_ids;
-    int id;
+    long[] genre_ids;
+    long id;
     String original_language;
     String original_title;
     String overview;

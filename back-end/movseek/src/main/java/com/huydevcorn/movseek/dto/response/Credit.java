@@ -16,13 +16,13 @@ import lombok.experimental.FieldDefaults;
 public class Credit {
     boolean adult;
     int gender;
-    int id;
+    long id;
     String known_for_department;
     String name;
     String original_name;
     double popularity;
     String profile_path;
-    int cast_id;
+    long cast_id;
     String character;
     String credit_id;
     int order;
