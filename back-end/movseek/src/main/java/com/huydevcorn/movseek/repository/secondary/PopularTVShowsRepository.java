@@ -1,6 +1,6 @@
 package com.huydevcorn.movseek.repository.secondary;
 
-import com.huydevcorn.movseek.model.tvshow.PopularTVShows;
+import com.huydevcorn.movseek.model.tvshows.PopularTVShows;
 import jakarta.annotation.Nonnull;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;

@@ -13,7 +13,10 @@ import org.springframework.http.HttpStatusCode;
 public enum ErrorCode {
     UNCATEGORIZED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Uncategorized exception", HttpStatus.INTERNAL_SERVER_ERROR),
     INVALID_TYPE_TRENDING_MOVIE(HttpStatus.BAD_REQUEST.value(), "Invalid type of trending movie", HttpStatus.BAD_REQUEST),
-    InVALID_PAGE(HttpStatus.BAD_REQUEST.value(), "Invalid page", HttpStatus.BAD_REQUEST),
+    INVALID_PAGE(HttpStatus.BAD_REQUEST.value(), "Invalid page", HttpStatus.BAD_REQUEST),
+    PEOPLE_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "People not found", HttpStatus.NOT_FOUND),
+    MOVIE_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Movie not found", HttpStatus.NOT_FOUND),
+    TV_SHOW_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "TV show not found", HttpStatus.NOT_FOUND),
 //    USER_EXISTED(HttpStatus.BAD_REQUEST.value(), "Email existed", HttpStatus.BAD_REQUEST),
 //    EMPTY_EMAIL(1002, "Email cannot be empty", HttpStatus.BAD_REQUEST),
 //    INVALID_EMAIL(1003, "Email is not in correct format", HttpStatus.BAD_REQUEST),

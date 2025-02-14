@@ -3,7 +3,7 @@ package com.huydevcorn.movseek.service;
 import com.huydevcorn.movseek.dto.response.TVListResponse;
 import com.huydevcorn.movseek.exception.AppException;
 import com.huydevcorn.movseek.exception.ErrorCode;
-import com.huydevcorn.movseek.model.tvshow.*;
+import com.huydevcorn.movseek.model.tvshows.*;
 import com.huydevcorn.movseek.repository.secondary.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,12 @@ public class TVShowService {
     AiringTodayTVShowsRepository airingTodayTVShowsRepository;
 
     public Optional<TVShow> getTVShowById(String id) {
-        return tvShowRepository.findById(Integer.parseInt(id));
+        Optional<TVShow> tvShow = tvShowRepository.findById(Integer.parseInt(id));
+        if (tvShow.isPresent()) {
+            return tvShow;
+        } else {
+            throw new AppException(ErrorCode.TV_SHOW_NOT_FOUND);
+        }
     }
 
     public List<TVGenre> getAllTVGenres() {
@@ -38,7 +43,7 @@ public class TVShowService {
 
     public TVListResponse<PopularTVShows> getPopularTVShows(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = popularTVShowsRepository.count();
@@ -53,7 +58,7 @@ public class TVShowService {
 
     public TVListResponse<OnTheAirTVShows> getOnTheAirTVShows(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = onTheAirTVShowsRepository.count();
@@ -68,7 +73,7 @@ public class TVShowService {
 
     public TVListResponse<TopRatedTVShows> getTopRatedTVShows(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = topRatedTVShowsRepository.count();
@@ -83,7 +88,7 @@ public class TVShowService {
 
     public TVListResponse<AiringTodayTVShows> getAiringTodayTVShows(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = airingTodayTVShowsRepository.count();

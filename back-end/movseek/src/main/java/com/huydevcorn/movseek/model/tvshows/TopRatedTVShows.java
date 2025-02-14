@@ -1,4 +1,4 @@
-package com.huydevcorn.movseek.model.tvshow;
+package com.huydevcorn.movseek.model.tvshows;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

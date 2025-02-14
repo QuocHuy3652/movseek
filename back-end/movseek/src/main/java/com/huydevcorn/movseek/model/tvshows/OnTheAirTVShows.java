@@ -1,4 +1,4 @@
-package com.huydevcorn.movseek.model.tvshow;
+package com.huydevcorn.movseek.model.tvshows;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,14 +6,14 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "tv_airing_today")
+@Document(collection = "tv_on_the_air")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AiringTodayTVShows {
+public class OnTheAirTVShows {
     @Id
     ObjectId _id;
     boolean adult;

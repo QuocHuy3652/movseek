@@ -35,22 +35,39 @@ public class MovieService {
 
 
     public Optional<Movie> getMovieById(String id) {
-        return movieRepository.findById(Integer.parseInt(id));
+        Optional<Movie> movie = movieRepository.findById(Integer.parseInt(id));
+        if (movie.isPresent()) {
+            return movie;
+        } else {
+            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
+        }
     }
 
     public List<TrailerResponse> getMovieTrailers(String id) {
         Optional<Movie> movie = movieRepository.findById(Integer.parseInt(id));
-        return movie.map(Movie::getTrailers).orElse(null);
+        if (movie.isPresent()) {
+            return movie.map(Movie::getTrailers).orElse(null);
+        } else {
+            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
+        }
     }
 
     public List<KeywordResponse> getMovieKeywords(String id) {
         Optional<Movie> movie = movieRepository.findById(Integer.parseInt(id));
-        return movie.map(Movie::getKeywords).orElse(null);
+        if (movie.isPresent()) {
+            return movie.map(Movie::getKeywords).orElse(null);
+        } else {
+            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
+        }
     }
 
     public CreditResponse getMovieCredits(String id) {
         Optional<Movie> movie = movieRepository.findById(Integer.parseInt(id));
-        return movie.map(Movie::getCredits).orElse(null);
+        if (movie.isPresent()) {
+            return movie.map(Movie::getCredits).orElse(null);
+        } else {
+            throw new AppException(ErrorCode.MOVIE_NOT_FOUND);
+        }
     }
 
     public List<MovieGenre> getAllMovieGenres() {
@@ -59,7 +76,7 @@ public class MovieService {
 
     public MoviesListResponse<PopularMovies> getPopularMovies(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = popularMoviesRepository.count();
@@ -74,7 +91,7 @@ public class MovieService {
 
     public MoviesListResponse<UpcomingMovies> getUpcomingMovies(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = upcomingMoviesRepository.count();
@@ -89,7 +106,7 @@ public class MovieService {
 
     public MoviesListResponse<TopRatedMovies> getTopRatedMovies(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = topRatedMoviesRepository.count();
@@ -104,7 +121,7 @@ public class MovieService {
 
     public MoviesListResponse<NowPlayingMovies> getNowPlayingMovies(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         long totalResults = nowPlayingMoviesRepository.count();
@@ -119,7 +136,7 @@ public class MovieService {
 
     public MoviesListResponse<?> getTrendingMovies(String type, int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         if (type.equals("day")) {
@@ -147,7 +164,7 @@ public class MovieService {
 
     public List<LatestTrailersResponse> getLatestMovieTrailers(int page, int per_page) {
         if (page < 1) {
-            throw new AppException(ErrorCode.InVALID_PAGE);
+            throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
         List<Movie> movies = movieRepository.findLatestMoviesTrailers(pageable);

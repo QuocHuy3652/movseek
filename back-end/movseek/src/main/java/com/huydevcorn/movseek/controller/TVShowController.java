@@ -2,7 +2,7 @@ package com.huydevcorn.movseek.controller;
 
 import com.huydevcorn.movseek.dto.response.ApiResponse;
 import com.huydevcorn.movseek.dto.response.TVListResponse;
-import com.huydevcorn.movseek.model.tvshow.*;
+import com.huydevcorn.movseek.model.tvshows.*;
 import com.huydevcorn.movseek.service.TVShowService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

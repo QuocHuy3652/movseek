@@ -1,6 +1,6 @@
 package com.huydevcorn.movseek.repository.secondary;
 
-import com.huydevcorn.movseek.model.tvshows.AiringTodayTVShows;
+import com.huydevcorn.movseek.model.people.PopularPeople;
 import jakarta.annotation.Nonnull;
 import org.bson.types.ObjectId;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AiringTodayTVShowsRepository extends MongoRepository<AiringTodayTVShows, ObjectId> {
+public interface PopularPeopleRepository extends MongoRepository<PopularPeople, ObjectId> {
     @Nonnull
-    Page<AiringTodayTVShows> findAll(@Nonnull Pageable pageable);
+    Page<PopularPeople> findAll(@Nonnull Pageable pageable);
 }
