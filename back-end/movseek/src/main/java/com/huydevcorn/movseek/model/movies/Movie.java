@@ -24,7 +24,7 @@ public class Movie {
     int id;
     String backdrop_path;
     int budget;
-    List<Genre> genres;
+    List<MovieGenre> genres;
     String homepage;
     List<String> origin_country;
     String original_language;

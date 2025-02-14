@@ -54,8 +54,8 @@ public class MovieController {
 
     @GetMapping("/genres")
     @Operation(summary = "Get all movie genres")
-    public ApiResponse<List<Genre>> getAllMovieGenres() {
-        return ApiResponse.<List<Genre>>builder()
+    public ApiResponse<List<MovieGenre>> getAllMovieGenres() {
+        return ApiResponse.<List<MovieGenre>>builder()
                 .data(movieService.getAllMovieGenres())
                 .build();
     }

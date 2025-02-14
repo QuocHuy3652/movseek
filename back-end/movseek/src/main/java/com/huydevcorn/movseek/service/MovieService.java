@@ -50,14 +50,10 @@ public class MovieService {
 
     public CreditResponse getMovieCredits(String id) {
         Optional<Movie> movie = movieRepository.findById(Integer.parseInt(id));
-        log.info("Cast: {}", movie.get().getCredits().getCast().size());
-        log.info("Crew: {}", movie.get().getCredits().getCrew().size());
-        log.info("Id: {}", movie.get().getCredits().getId());
-
         return movie.map(Movie::getCredits).orElse(null);
     }
 
-    public List<Genre> getAllMovieGenres() {
+    public List<MovieGenre> getAllMovieGenres() {
         return movieGenreRepository.findAll();
     }
 
