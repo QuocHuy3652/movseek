@@ -1,7 +1,6 @@
 package com.huydevcorn.movseek.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.huydevcorn.movseek.model.movies.MovieGenre;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
