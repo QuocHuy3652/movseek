@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { TMDB_API } from '@/utils/constants';
+import { TMDB_API } from '@/constants/constants';
 import Link from 'next/link';
 
 interface TrailerCardProps {

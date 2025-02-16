@@ -2,7 +2,7 @@ import { formatDate } from '@/lib/utils';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { TMDB_API } from '@/utils/constants';
+import { TMDB_API } from '@/constants/constants';
 import Link from 'next/link';
 
 interface TVCardProps {

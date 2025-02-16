@@ -69,7 +69,6 @@ const PopularList = ({ popularType }: PopularListProps) => {
     };
 
     fetchPopular();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popularType]);
 
   useEffect(() => {
