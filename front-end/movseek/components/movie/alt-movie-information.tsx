@@ -1,5 +1,5 @@
 import type { Keyword, Movie } from '@/models/movie-detail-types';
-import { formatCurrency } from '@/utils/util-functions/detail-page';
+import { formatCurrency } from '@/utils/detail-page';
 import { Link2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Link from 'next/link';
@@ -17,7 +17,12 @@ const AltMovieInformation: React.FC<AltMovieInformationProps> = ({ movie, keywor
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link href={movie.homepage} target="_blank" rel="noopener noreferrer" className="w-fit">
+              <Link
+                href={movie.homepage}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-fit"
+              >
                 <div className="hover:bg-gray-100 hover:cursor-pointer w-fit p-2 rounded-sm">
                   <Link2 className="w-8 h-8" />
                 </div>
@@ -48,8 +53,12 @@ const AltMovieInformation: React.FC<AltMovieInformationProps> = ({ movie, keywor
         <h1 className="font-bold text-lg">
           Keywords <span className="font-normal text-gray-500">{keywords.length}</span>
         </h1>
-        {keywords.map((keyword) => (
-          <Button key={keyword.id} variant="secondary" className="mr-2 mt-2 border text-xs border-black">
+        {keywords.map((keyword, index) => (
+          <Button
+            key={index}
+            variant="secondary"
+            className="mr-2 mt-2 border text-xs border-black"
+          >
             {keyword.name}
           </Button>
         ))}

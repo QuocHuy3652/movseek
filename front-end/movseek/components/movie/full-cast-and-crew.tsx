@@ -1,5 +1,5 @@
 import { Credits } from '@/models/movie-detail-types';
-import { getSizeOfCrew } from '@/utils/util-functions/detail-page';
+import { getSizeOfCrew } from '@/utils/detail-page';
 import CastAndCrewImage from '@/components/movie/cast-and-crew-image';
 import Link from 'next/link';
 
@@ -15,9 +15,16 @@ const FullCaseAndCrew: React.FC<FullCaseAndCrewProps> = ({ credits }) => {
           Cast <span className="font-normal text-gray-500">{credits.cast.length}</span>
         </div>
         {credits.cast.map((actor, index) => (
-          <div key={index} className="flex flex-row items-center gap-4">
+          <div
+            key={index}
+            className="flex flex-row items-center gap-4"
+          >
             <Link href={`/person/${actor.id}`}>
-              <CastAndCrewImage image={actor.profile_path} name={actor.name} gender={actor.gender} />
+              <CastAndCrewImage
+                image={actor.profile_path}
+                name={actor.name}
+                gender={actor.gender}
+              />
             </Link>
             <div>
               <Link href={`/person/${actor.id}`}>
@@ -33,15 +40,25 @@ const FullCaseAndCrew: React.FC<FullCaseAndCrewProps> = ({ credits }) => {
           Crew <span className="font-normal text-gray-500">{getSizeOfCrew(credits.crew)}</span>
         </div>
         {Object.entries(credits.crew).map(([department, crewMembers]) => (
-          <div key={department} className="mb-6">
+          <div
+            key={department}
+            className="mb-6"
+          >
             <h2 className="text-lg font-bold mb-2">
               {department} <span className="font-normal text-gray-500">{crewMembers.length}</span>
             </h2>
             <div className="flex flex-col gap-4">
               {crewMembers.map((member, index) => (
-                <div key={index} className="flex flex-row items-center gap-4">
+                <div
+                  key={index}
+                  className="flex flex-row items-center gap-4"
+                >
                   <Link href={`/person/${member.id}`}>
-                    <CastAndCrewImage image={member.profile_path} name={member.name} gender={member.gender} />
+                    <CastAndCrewImage
+                      image={member.profile_path}
+                      name={member.name}
+                      gender={member.gender}
+                    />
                   </Link>
                   <div>
                     <Link href={`/person/${member.id}`}>

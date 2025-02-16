@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { TMDB_API } from '@/utils/constants';
+import { TMDB_API } from '@/constants/constants';
 import { formatDate } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Heart, Bookmark } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import type { Cast, Credits, Crew, Movie } from '@/models/movie-detail-types';
-import { convertMinutes, getCrewByJob } from '@/utils/util-functions/detail-page';
+import { convertMinutes, getCrewByJob } from '@/utils/detail-page';
 import { useEffect, useState } from 'react';
 import Rating from '@/components/movie/rating';
 import { useToast } from '@/hooks/use-toast';
@@ -248,9 +248,9 @@ const MainMovieInformation: React.FC<MainMovieInformationProps> = ({
               {getCrewByJob(creadits.crew, 'Directing', 'Director').length > 0 && (
                 <div>
                   <h1 className="text-md font-bold mb-1">Driector</h1>
-                  {getCrewByJob(creadits.crew, 'Directing', 'Director').map((crew: Crew) => (
+                  {getCrewByJob(creadits.crew, 'Directing', 'Director').map((crew: Crew, index) => (
                     <div
-                      key={crew.id}
+                      key={index}
                       className="text-sm"
                     >
                       ● {crew.name}
@@ -261,9 +261,9 @@ const MainMovieInformation: React.FC<MainMovieInformationProps> = ({
               {getCrewByJob(creadits.crew, 'Writing', 'Writer').length > 0 && (
                 <div>
                   <h1 className="text-md font-bold mb-1">Writer</h1>
-                  {getCrewByJob(creadits.crew, 'Writing', 'Writer').map((crew: Crew) => (
+                  {getCrewByJob(creadits.crew, 'Writing', 'Writer').map((crew: Crew, index) => (
                     <div
-                      key={crew.id}
+                      key={index}
                       className="text-sm"
                     >
                       ● {crew.name}
@@ -274,9 +274,9 @@ const MainMovieInformation: React.FC<MainMovieInformationProps> = ({
               {creadits.cast.slice(0, 3).length > 0 && (
                 <div>
                   <h1 className="text-md font-bold mb-1">Top Cast</h1>
-                  {creadits.cast.slice(0, 3).map((crew: Cast) => (
+                  {creadits.cast.slice(0, 3).map((crew: Cast, index) => (
                     <div
-                      key={crew.id}
+                      key={index}
                       className="text-sm"
                     >
                       ● {crew.name}

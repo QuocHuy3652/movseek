@@ -6,7 +6,7 @@ import { MovieListResults } from '@/models/movie-list-types';
 import { fetchMoviePopular } from '@/apis/movie-list';
 import MovieCardDummpy from '@/components/main/movie-card-dummy';
 import { Keyword, Movie } from '@/models/movie-detail-types';
-import { buildQuery } from '@/utils/util-functions/detail-page';
+import { buildQuery } from '@/utils/detail-page';
 import { fetchLLMRetriever } from '@/apis/llm-search';
 import { fetchSearchSpecificMovie } from '@/apis/search';
 
