@@ -1,6 +1,7 @@
 package com.huydevcorn.movseek.controller;
 
 import com.huydevcorn.movseek.dto.response.ApiResponse;
+import com.huydevcorn.movseek.dto.response.GenreResponse;
 import com.huydevcorn.movseek.dto.response.TVListResponse;
 import com.huydevcorn.movseek.model.tvshows.*;
 import com.huydevcorn.movseek.service.TVShowService;
@@ -10,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,8 +31,8 @@ public class TVShowController {
 
     @GetMapping("/genres")
     @Operation(summary = "Get all tv genres")
-    public ApiResponse<List<TVGenre>> getAllTVGenres() {
-        return ApiResponse.<List<TVGenre>>builder()
+    public ApiResponse<GenreResponse<TVGenre>> getAllTVGenres() {
+        return ApiResponse.<GenreResponse<TVGenre>>builder()
                 .data(tvShowService.getAllTVGenres())
                 .build();
     }

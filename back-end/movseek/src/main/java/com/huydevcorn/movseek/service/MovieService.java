@@ -70,8 +70,10 @@ public class MovieService {
         }
     }
 
-    public List<MovieGenre> getAllMovieGenres() {
-        return movieGenreRepository.findAll();
+    public GenreResponse<MovieGenre> getAllMovieGenres() {
+        return GenreResponse.<MovieGenre>builder()
+                .genres(movieGenreRepository.findAll())
+                .build();
     }
 
     public MoviesListResponse<PopularMovies> getPopularMovies(int page, int per_page) {
