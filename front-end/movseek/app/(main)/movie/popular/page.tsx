@@ -41,7 +41,6 @@ export default function MoviePopularPage() {
         const movieResponse = await fetchMoviePopular(page != null ? parseInt(page) : 1, filteredParams.toString());
         setMovieResults(movieResponse.data.data);
         const genreResponse = await fetchGenresMovie();
-        console.log(genreResponse.data.data);
         setGenreListResults(genreResponse.data.data);
       } catch (err) {
         console.log(err);
