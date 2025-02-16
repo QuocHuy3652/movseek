@@ -1,5 +1,6 @@
 package com.huydevcorn.movseek.service;
 
+import com.huydevcorn.movseek.dto.response.GenreResponse;
 import com.huydevcorn.movseek.dto.response.TVListResponse;
 import com.huydevcorn.movseek.exception.AppException;
 import com.huydevcorn.movseek.exception.ErrorCode;
@@ -13,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,8 +37,10 @@ public class TVShowService {
         }
     }
 
-    public List<TVGenre> getAllTVGenres() {
-        return tvGenreRepository.findAll();
+    public GenreResponse<TVGenre> getAllTVGenres() {
+        return GenreResponse.<TVGenre>builder()
+                .genres(tvGenreRepository.findAll())
+                .build();
     }
 
     public TVListResponse<PopularTVShows> getPopularTVShows(int page, int per_page) {
