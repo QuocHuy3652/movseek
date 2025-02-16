@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
@@ -16,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 public class Credit {
     boolean adult;
     int gender;
+    @Field("id")
     long id;
     String known_for_department;
     String name;
