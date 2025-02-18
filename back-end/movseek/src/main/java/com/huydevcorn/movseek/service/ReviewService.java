@@ -1,8 +1,11 @@
 package com.huydevcorn.movseek.service;
 
-import com.huydevcorn.movseek.dto.request.ReviewRequest;
+import com.huydevcorn.movseek.dto.request.CommentRequest;
+import com.huydevcorn.movseek.dto.request.RatingRequest;
 import com.huydevcorn.movseek.dto.response.Comment;
 import com.huydevcorn.movseek.dto.response.CommentResponse;
+import com.huydevcorn.movseek.dto.response.Rating;
+import com.huydevcorn.movseek.dto.response.RatingResponse;
 import com.huydevcorn.movseek.exception.AppException;
 import com.huydevcorn.movseek.exception.ErrorCode;
 import com.huydevcorn.movseek.model.profile.Review;
@@ -32,6 +35,7 @@ public class ReviewService {
             throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
         }
         List<Comment> comments = Flux.fromIterable(reviewRepository.findByMediaId(mediaId, mediaType))
+                .filter(review -> review.getComment() != null)
                 .flatMap(review -> clerkService.getUserInfo(review.getUser_id())
                         .map(user -> Comment.builder()
                                 .user_id(review.getUser_id())
@@ -55,6 +59,7 @@ public class ReviewService {
             throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
         }
         List<Comment> comments = Flux.fromIterable(reviewRepository.findByUserId(userId, mediaType))
+                .filter(review -> review.getComment() != null)
                 .flatMap(review -> clerkService.getUserInfo(review.getUser_id())
                         .map(user -> Comment.builder()
                                 .user_id(review.getUser_id())
@@ -74,7 +79,7 @@ public class ReviewService {
                 .build();
     }
 
-    public void addComment(ReviewRequest request) {
+    public void addComment(CommentRequest request) {
         String userId = request.getUser_id();
         long mediaId = request.getMedia_id();
         String mediaType = request.getType();
@@ -87,23 +92,31 @@ public class ReviewService {
         Optional<Review> existingReview = reviewRepository.findByMediaIdAndUserId(mediaId, userId, mediaType);
 
         if (existingReview.isPresent()) {
-            throw new AppException(ErrorCode.COMMENT_ALREADY_EXISTS);
+            if (existingReview.get().getComment() != null) {
+                throw new AppException(ErrorCode.COMMENT_ALREADY_EXISTS);
+            } else {
+                Review review = existingReview.get();
+                review.setComment(commentText);
+                review.setCreated_at(Instant.now());
+                reviewRepository.save(review);
+            }
+        } else {
+            Review newReview = Review.builder()
+                    .id(UUID.randomUUID().toString())
+                    .user_id(userId)
+                    .media_id(mediaId)
+                    .media_type(mediaType)
+                    .comment(commentText)
+                    .rating(null)
+                    .created_at(Instant.now())
+                    .build();
+
+            reviewRepository.save(newReview);
         }
 
-        Review newReview = Review.builder()
-                .id(UUID.randomUUID().toString())
-                .user_id(userId)
-                .media_id(mediaId)
-                .media_type(mediaType)
-                .comment(commentText)
-                .rating(null)
-                .created_at(Instant.now())
-                .build();
-
-        reviewRepository.save(newReview);
     }
 
-    public void updateComment(ReviewRequest request) {
+    public void updateComment(CommentRequest request) {
         String userId = request.getUser_id();
         long mediaId = request.getMedia_id();
         String mediaType = request.getType();
@@ -145,4 +158,145 @@ public class ReviewService {
             reviewRepository.save(review);
         }
     }
+
+    public RatingResponse getRatingByMediaId(long mediaId, String mediaType) {
+        if (!mediaType.equals("movie") && !mediaType.equals("tv_show")) {
+            throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
+        }
+        List<Rating> ratings = Flux.fromIterable(reviewRepository.findByMediaId(mediaId, mediaType))
+                .filter(review -> review.getRating() != null)
+                .flatMap(review -> clerkService.getUserInfo(review.getUser_id())
+                        .map(user -> Rating.builder()
+                                .user_id(review.getUser_id())
+                                .username(user.getFirst_name() + " " + user.getLast_name())
+                                .avatar(user.getAvatar())
+                                .rating(review.getRating())
+                                .created_at(review.getCreated_at())
+                                .build()))
+                .collectList()
+                .block();
+
+        ratings = (ratings != null) ? ratings : List.of();
+
+        return RatingResponse.builder()
+                .media_id(mediaId)
+                .type(mediaType)
+                .average(ratings.stream().mapToDouble(Rating::getRating).average().orElse(0))
+                .count(ratings.size())
+                .ratings(ratings)
+                .build();
+    }
+
+    public RatingResponse getRatingByUserId(String userId, String mediaType) {
+        if (!mediaType.equals("movie") && !mediaType.equals("tv_show")) {
+            throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
+        }
+
+        List<Rating> ratings = Flux.fromIterable(reviewRepository.findByUserId(userId, mediaType))
+                .filter(review -> review.getRating() != null)
+                .flatMap(review -> clerkService.getUserInfo(review.getUser_id())
+                        .map(user -> Rating.builder()
+                                .user_id(review.getUser_id())
+                                .media_id(review.getMedia_id())
+                                .username(Optional.ofNullable(user.getFirst_name()).orElse("") + " " +
+                                        Optional.ofNullable(user.getLast_name()).orElse(""))
+                                .avatar(user.getAvatar())
+                                .rating(review.getRating())
+                                .created_at(review.getCreated_at())
+                                .build()))
+                .collectList()
+                .block();
+
+        ratings = (ratings != null) ? ratings : List.of();
+
+        return RatingResponse.builder()
+                .user_id(userId)
+                .type(mediaType)
+                .average(ratings.stream().mapToDouble(Rating::getRating).average().orElse(0))
+                .count(ratings.size())
+                .ratings(ratings)
+                .build();
+    }
+
+
+    public void addRating(RatingRequest request) {
+        String userId = request.getUser_id();
+        long mediaId = request.getMedia_id();
+        String mediaType = request.getType();
+        double rating = request.getRating();
+
+        if (!mediaType.equals("movie") && !mediaType.equals("tv_show")) {
+            throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
+        }
+
+        Optional<Review> existingReview = reviewRepository.findByMediaIdAndUserId(mediaId, userId, mediaType);
+
+        if (existingReview.isPresent()) {
+            if (existingReview.get().getRating() != null) {
+                throw new AppException(ErrorCode.RATING_ALREADY_EXISTS);
+            } else {
+                Review review = existingReview.get();
+                review.setRating(rating);
+                review.setCreated_at(Instant.now());
+                reviewRepository.save(review);
+            }
+        } else {
+            Review newReview = Review.builder()
+                    .id(UUID.randomUUID().toString())
+                    .user_id(userId)
+                    .media_id(mediaId)
+                    .media_type(mediaType)
+                    .comment(null)
+                    .rating(rating)
+                    .created_at(Instant.now())
+                    .build();
+            reviewRepository.save(newReview);
+        }
+
+    }
+
+    public void updateRating(RatingRequest request) {
+        String userId = request.getUser_id();
+        long mediaId = request.getMedia_id();
+        String mediaType = request.getType();
+        double rating = request.getRating();
+
+        if (!mediaType.equals("movie") && !mediaType.equals("tv_show")) {
+            throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
+        }
+
+        Optional<Review> existingReview = reviewRepository.findByMediaIdAndUserId(mediaId, userId, mediaType);
+
+        if (existingReview.isEmpty()) {
+            throw new AppException(ErrorCode.RATING_NOT_FOUND);
+        }
+
+        Review updatedReview = existingReview.get();
+        updatedReview.setRating(rating);
+        updatedReview.setCreated_at(Instant.now());
+
+        reviewRepository.save(updatedReview);
+    }
+
+    public void deleteRating(long mediaId, String userId, String mediaType) {
+        if (!mediaType.equals("movie") && !mediaType.equals("tv_show")) {
+            throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
+        }
+
+        Optional<Review> existingReview = reviewRepository.findByMediaIdAndUserId(mediaId, userId, mediaType);
+
+        if (existingReview.isEmpty()) {
+            throw new AppException(ErrorCode.RATING_NOT_FOUND);
+        }
+        Review review = existingReview.get();
+
+        if (review.getComment() == null) {
+            reviewRepository.delete(review);
+        } else {
+            review.setRating(null);
+            reviewRepository.save(review);
+        }
+    }
+
+
 }

@@ -24,6 +24,8 @@ public enum ErrorCode {
     MEDIA_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Media not found", HttpStatus.NOT_FOUND),
     COMMENT_ALREADY_EXISTS(HttpStatus.BAD_REQUEST.value(), "Comment already exists", HttpStatus.BAD_REQUEST),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Comment not found", HttpStatus.NOT_FOUND),
+    RATING_ALREADY_EXISTS(HttpStatus.BAD_REQUEST.value(), "Rating already exists", HttpStatus.BAD_REQUEST),
+    RATING_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "Rating not found", HttpStatus.NOT_FOUND),
 //    USER_EXISTED(HttpStatus.BAD_REQUEST.value(), "Email existed", HttpStatus.BAD_REQUEST),
 //    EMPTY_EMAIL(1002, "Email cannot be empty", HttpStatus.BAD_REQUEST),
 //    INVALID_EMAIL(1003, "Email is not in correct format", HttpStatus.BAD_REQUEST),
