@@ -19,3 +19,7 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-ui.html
+
+clerk:
+  secret-key: ${CLERK_SECRET_KEY}
+  base-url: ${CLERK_URL}
