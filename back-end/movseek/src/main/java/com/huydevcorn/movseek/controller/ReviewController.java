@@ -42,7 +42,7 @@ public class ReviewController {
                 .build();
     }
 
-    @PutMapping("/comments/{user_id}")
+    @PutMapping("/comments/user/{user_id}")
     @Operation(summary = "Update comment")
     public ApiResponse<String> updateComment(@RequestBody CommentRequest commentRequest) {
         reviewService.updateComment(commentRequest);
@@ -51,7 +51,7 @@ public class ReviewController {
                 .build();
     }
 
-    @DeleteMapping("/comments/{user_id}")
+    @DeleteMapping("/comments/user/{user_id}")
     @Operation(summary = "Delete comment")
     public ApiResponse<String> deleteComment(@PathVariable String user_id, @RequestParam long media_id, @RequestParam String type) {
         reviewService.deleteComment(media_id, user_id, type);
@@ -85,7 +85,7 @@ public class ReviewController {
                 .build();
     }
 
-    @PutMapping("/ratings/{user_id}")
+    @PutMapping("/ratings/user/{user_id}")
     @Operation(summary = "Update rating")
     public ApiResponse<String> updateRating(@RequestBody RatingRequest request) {
         reviewService.updateRating(request);
@@ -94,7 +94,7 @@ public class ReviewController {
                 .build();
     }
 
-    @DeleteMapping("/ratings/{user_id}")
+    @DeleteMapping("/ratings/user/{user_id}")
     @Operation(summary = "Delete rating")
     public ApiResponse<String> deleteRating(@PathVariable String user_id, @RequestParam long media_id, @RequestParam String type) {
         reviewService.deleteRating(media_id, user_id, type);
