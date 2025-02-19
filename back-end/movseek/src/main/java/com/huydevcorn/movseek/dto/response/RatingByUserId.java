@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.time.Instant;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 @Data
@@ -15,13 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class RatingResponse {
+public class RatingByUserId {
     long media_id;
-    String user_id;
     String type;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    double average;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    int count;
-    List<Rating> ratings;
+    Double rating;
+    Instant created_at;
 }

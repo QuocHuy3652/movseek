@@ -2,9 +2,7 @@ package com.huydevcorn.movseek.controller;
 
 import com.huydevcorn.movseek.dto.request.CommentRequest;
 import com.huydevcorn.movseek.dto.request.RatingRequest;
-import com.huydevcorn.movseek.dto.response.ApiResponse;
-import com.huydevcorn.movseek.dto.response.CommentResponse;
-import com.huydevcorn.movseek.dto.response.RatingResponse;
+import com.huydevcorn.movseek.dto.response.*;
 import com.huydevcorn.movseek.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -72,9 +70,9 @@ public class ReviewController {
 
     @GetMapping("/ratings/user/{user_id}")
     @Operation(summary = "Get ratings by user id")
-    public ApiResponse<RatingResponse> getRatingByUserId(@PathVariable String user_id, @RequestParam String type) {
-        return ApiResponse.<RatingResponse>builder()
-                .data(reviewService.getRatingByUserId(user_id, type))
+    public ApiResponse<RatingByUserIdResponse> getRatingByUserId(@PathVariable String user_id) {
+        return ApiResponse.<RatingByUserIdResponse>builder()
+                .data(reviewService.getRatingByUserId(user_id))
                 .build();
     }
 
