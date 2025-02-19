@@ -40,7 +40,7 @@ export const updateRating = (
     rating,
     media_id,
     type,
-    userID: user_id,
+    user_id,
     username,
   });
 };
