@@ -14,6 +14,8 @@ public interface ReviewRepository extends MongoRepository<Review, String> {
     List<Review> findByMediaId(long mediaId, String mediaType);
     @Query("{ 'user_id' : ?0, 'media_type' : ?1 }")
     List<Review> findByUserId(String userId, String mediaType);
+    @Query("{ 'user_id' : ?0 }")
+    List<Review> findByUserId(String userId);
     @Query("{ 'media_id' : ?0, 'user_id' : ?1, 'media_type' : ?2 }")
     Optional<Review> findByMediaIdAndUserId(long mediaId, String userId, String mediaType);
 }
