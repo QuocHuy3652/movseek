@@ -57,14 +57,14 @@ export const TMDB_API = {
   GET_FAVORITE_ITEM: (userId: string) => `/saved-item/${userId}?type=favorite`,
   GET_WATCHLIST_ITEM: (userId: string) => `/saved-item/${userId}?type=watchlist`,
 
-  ADD_REVIEW: () => `/comments/`,
+  ADD_REVIEW: () => `/comments`,
   GET_REVIEWS_BY_MEDIA: (mediaId: number, type: string) => `/comments/media/${mediaId}?type=${type}`,
   GET_REVIEWS_BY_USER: (userId: string) => `/comments/user/${userId}`,
   UPDATE_REVIEWS: (userId: string) => `/comments/user/${userId}`,
   DELETE_REVIEWS: (userId: string, mediaId: number, type: string) =>
     `/comments/user/${userId}?media_id=${mediaId}&type=${type}`,
 
-  ADD_RATING: () => `/ratings/`,
+  ADD_RATING: () => `/ratings`,
   GET_RATINGS_BY_MEDIA: (mediaId: number, type: string) => `/ratings/media/${mediaId}?type=${type}`,
   GET_RATINGS_BY_USER: (userId: string) => `/ratings/user/${userId}`,
   UPDATE_RATINGS: (userId: string) => `/ratings/user/${userId}`,
