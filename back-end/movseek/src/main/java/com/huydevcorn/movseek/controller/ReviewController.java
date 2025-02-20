@@ -2,9 +2,7 @@ package com.huydevcorn.movseek.controller;
 
 import com.huydevcorn.movseek.dto.request.CommentRequest;
 import com.huydevcorn.movseek.dto.request.RatingRequest;
-import com.huydevcorn.movseek.dto.response.ApiResponse;
-import com.huydevcorn.movseek.dto.response.CommentResponse;
-import com.huydevcorn.movseek.dto.response.RatingResponse;
+import com.huydevcorn.movseek.dto.response.*;
 import com.huydevcorn.movseek.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +42,7 @@ public class ReviewController {
                 .build();
     }
 
-    @PutMapping("/comments/{user_id}")
+    @PutMapping("/comments/user/{user_id}")
     @Operation(summary = "Update comment")
     public ApiResponse<String> updateComment(@RequestBody CommentRequest commentRequest) {
         reviewService.updateComment(commentRequest);
@@ -53,7 +51,7 @@ public class ReviewController {
                 .build();
     }
 
-    @DeleteMapping("/comments/{user_id}")
+    @DeleteMapping("/comments/user/{user_id}")
     @Operation(summary = "Delete comment")
     public ApiResponse<String> deleteComment(@PathVariable String user_id, @RequestParam long media_id, @RequestParam String type) {
         reviewService.deleteComment(media_id, user_id, type);
@@ -72,9 +70,9 @@ public class ReviewController {
 
     @GetMapping("/ratings/user/{user_id}")
     @Operation(summary = "Get ratings by user id")
-    public ApiResponse<RatingResponse> getRatingByUserId(@PathVariable String user_id, @RequestParam String type) {
-        return ApiResponse.<RatingResponse>builder()
-                .data(reviewService.getRatingByUserId(user_id, type))
+    public ApiResponse<RatingByUserIdResponse> getRatingByUserId(@PathVariable String user_id) {
+        return ApiResponse.<RatingByUserIdResponse>builder()
+                .data(reviewService.getRatingByUserId(user_id))
                 .build();
     }
 
@@ -87,7 +85,7 @@ public class ReviewController {
                 .build();
     }
 
-    @PutMapping("/ratings/{user_id}")
+    @PutMapping("/ratings/user/{user_id}")
     @Operation(summary = "Update rating")
     public ApiResponse<String> updateRating(@RequestBody RatingRequest request) {
         reviewService.updateRating(request);
@@ -96,7 +94,7 @@ public class ReviewController {
                 .build();
     }
 
-    @DeleteMapping("/ratings/{user_id}")
+    @DeleteMapping("/ratings/user/{user_id}")
     @Operation(summary = "Delete rating")
     public ApiResponse<String> deleteRating(@PathVariable String user_id, @RequestParam long media_id, @RequestParam String type) {
         reviewService.deleteRating(media_id, user_id, type);

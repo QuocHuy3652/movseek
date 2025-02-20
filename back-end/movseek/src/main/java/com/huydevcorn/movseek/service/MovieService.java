@@ -9,10 +9,12 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -76,63 +78,91 @@ public class MovieService {
                 .build();
     }
 
-    public MoviesListResponse<PopularMovies> getPopularMovies(int page, int per_page) {
+    public MoviesListResponse<PopularMovies> getPopularMovies(
+            int page, int per_page, LocalDate startDate, LocalDate endDate, Double startVote, Double endVote,
+            List<Integer> genreIds, Integer timeOrder, Integer popularityOrder, Integer voteOrder, Integer titleOrder
+    ) {
         if (page < 1) {
             throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
-        long totalResults = popularMoviesRepository.count();
+
+        Page<PopularMovies> movies = popularMoviesRepository.filterEntity(
+                startDate, endDate, startVote, endVote, genreIds, timeOrder,
+                popularityOrder, voteOrder, titleOrder, pageable);
+
         return MoviesListResponse.<PopularMovies>builder()
                 .page(page)
                 .per_page(per_page)
-                .total_results((int) totalResults)
-                .total_pages((int) Math.ceil((double) totalResults / per_page))
-                .results(popularMoviesRepository.findAll(pageable).getContent())
+                .total_results((int) movies.getTotalElements())
+                .total_pages(movies.getTotalPages())
+                .results(movies.getContent())
                 .build();
     }
 
-    public MoviesListResponse<UpcomingMovies> getUpcomingMovies(int page, int per_page) {
+    public MoviesListResponse<UpcomingMovies> getUpcomingMovies(
+            int page, int per_page, LocalDate startDate, LocalDate endDate, Double startVote, Double endVote,
+            List<Integer> genreIds, Integer timeOrder, Integer popularityOrder, Integer voteOrder, Integer titleOrder
+    ) {
         if (page < 1) {
             throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
-        long totalResults = upcomingMoviesRepository.count();
+
+        Page<UpcomingMovies> movies = upcomingMoviesRepository.filterEntity(
+                startDate, endDate, startVote, endVote, genreIds, timeOrder,
+                popularityOrder, voteOrder, titleOrder, pageable);
+
         return MoviesListResponse.<UpcomingMovies>builder()
                 .page(page)
                 .per_page(per_page)
-                .total_results((int) totalResults)
-                .total_pages((int) Math.ceil((double) totalResults / per_page))
-                .results(upcomingMoviesRepository.findAll(pageable).getContent())
+                .total_results((int) movies.getTotalElements())
+                .total_pages(movies.getTotalPages())
+                .results(movies.getContent())
                 .build();
     }
 
-    public MoviesListResponse<TopRatedMovies> getTopRatedMovies(int page, int per_page) {
+    public MoviesListResponse<TopRatedMovies> getTopRatedMovies(
+            int page, int per_page, LocalDate startDate, LocalDate endDate, Double startVote, Double endVote,
+            List<Integer> genreIds, Integer timeOrder, Integer popularityOrder, Integer voteOrder, Integer titleOrder
+    ) {
         if (page < 1) {
             throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
-        long totalResults = topRatedMoviesRepository.count();
+
+        Page<TopRatedMovies> movies = topRatedMoviesRepository.filterEntity(
+                startDate, endDate, startVote, endVote, genreIds, timeOrder,
+                popularityOrder, voteOrder, titleOrder, pageable);
+
         return MoviesListResponse.<TopRatedMovies>builder()
                 .page(page)
                 .per_page(per_page)
-                .total_results((int) totalResults)
-                .total_pages((int) Math.ceil((double) totalResults / per_page))
-                .results(topRatedMoviesRepository.findAll(pageable).getContent())
+                .total_results((int) movies.getTotalElements())
+                .total_pages(movies.getTotalPages())
+                .results(movies.getContent())
                 .build();
     }
 
-    public MoviesListResponse<NowPlayingMovies> getNowPlayingMovies(int page, int per_page) {
+    public MoviesListResponse<NowPlayingMovies> getNowPlayingMovies(
+            int page, int per_page, LocalDate startDate, LocalDate endDate, Double startVote, Double endVote,
+            List<Integer> genreIds, Integer timeOrder, Integer popularityOrder, Integer voteOrder, Integer titleOrder
+    ) {
         if (page < 1) {
             throw new AppException(ErrorCode.INVALID_PAGE);
         }
         Pageable pageable = PageRequest.of(page - 1, per_page);
-        long totalResults = nowPlayingMoviesRepository.count();
+
+        Page<NowPlayingMovies> movies = nowPlayingMoviesRepository.filterEntity(
+                startDate, endDate, startVote, endVote, genreIds, timeOrder,
+                popularityOrder, voteOrder, titleOrder, pageable);
+
         return MoviesListResponse.<NowPlayingMovies>builder()
                 .page(page)
                 .per_page(per_page)
-                .total_results((int) totalResults)
-                .total_pages((int) Math.ceil((double) totalResults / per_page))
-                .results(nowPlayingMoviesRepository.findAll(pageable).getContent())
+                .total_results((int) movies.getTotalElements())
+                .total_pages(movies.getTotalPages())
+                .results(movies.getContent())
                 .build();
     }
 
@@ -171,7 +201,6 @@ public class MovieService {
         Pageable pageable = PageRequest.of(page - 1, per_page);
         List<Movie> movies = movieRepository.findLatestMoviesTrailers(pageable);
         return movies.stream().map(movie -> {
-                    // Lấy trailer mới nhất trong danh sách trailers
                     TrailerResponse latestTrailer = movie.getTrailers().stream()
                             .max(Comparator.comparing(TrailerResponse::getPublished_at))
                             .orElse(null);
@@ -185,10 +214,8 @@ public class MovieService {
                             .poster_path(movie.getPoster_path())
                             .id(movie.getId())
                             .build();
-                }).filter(Objects::nonNull) // Lọc bỏ null (nếu movie không có trailer)
+                }).filter(Objects::nonNull)
                 .collect(Collectors.toList());
     }
-
-
 
 }

@@ -15,13 +15,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class RatingResponse {
-    long media_id;
+public class RatingByUserIdResponse {
     String user_id;
-    String type;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    String username;
+    String avatar;
     double average;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     int count;
-    List<Rating> ratings;
+    List<RatingByUserId> ratings;
 }

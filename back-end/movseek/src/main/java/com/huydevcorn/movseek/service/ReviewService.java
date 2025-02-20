@@ -2,10 +2,7 @@ package com.huydevcorn.movseek.service;
 
 import com.huydevcorn.movseek.dto.request.CommentRequest;
 import com.huydevcorn.movseek.dto.request.RatingRequest;
-import com.huydevcorn.movseek.dto.response.Comment;
-import com.huydevcorn.movseek.dto.response.CommentResponse;
-import com.huydevcorn.movseek.dto.response.Rating;
-import com.huydevcorn.movseek.dto.response.RatingResponse;
+import com.huydevcorn.movseek.dto.response.*;
 import com.huydevcorn.movseek.exception.AppException;
 import com.huydevcorn.movseek.exception.ErrorCode;
 import com.huydevcorn.movseek.model.profile.Review;
@@ -187,34 +184,30 @@ public class ReviewService {
                 .build();
     }
 
-    public RatingResponse getRatingByUserId(String userId, String mediaType) {
-        if (!mediaType.equals("movie") && !mediaType.equals("tv_show")) {
-            throw new AppException(ErrorCode.INVALID_MEDIA_TYPE);
+    public RatingByUserIdResponse getRatingByUserId(String userId) {
+        User user = clerkService.getUserInfo(userId).block();
+        if (user == null) {
+            throw new AppException(ErrorCode.USER_NOT_FOUND);
         }
-
-        List<Rating> ratings = Flux.fromIterable(reviewRepository.findByUserId(userId, mediaType))
+        log.info("User: {}", user);
+        List<RatingByUserId> ratings = reviewRepository.findByUserId(userId)
+                .stream()
                 .filter(review -> review.getRating() != null)
-                .flatMap(review -> clerkService.getUserInfo(review.getUser_id())
-                        .map(user -> Rating.builder()
-                                .user_id(review.getUser_id())
-                                .media_id(review.getMedia_id())
-                                .username(Optional.ofNullable(user.getFirst_name()).orElse("") + " " +
-                                        Optional.ofNullable(user.getLast_name()).orElse(""))
-                                .avatar(user.getAvatar())
-                                .rating(review.getRating())
-                                .created_at(review.getCreated_at())
-                                .build()))
-                .collectList()
-                .block();
+                .map(review -> RatingByUserId.builder()
+                        .media_id(review.getMedia_id())
+                        .type(review.getMedia_type())
+                        .rating(review.getRating())
+                        .created_at(review.getCreated_at())
+                        .build())
+                .toList();
 
-        ratings = (ratings != null) ? ratings : List.of();
-
-        return RatingResponse.builder()
+        return RatingByUserIdResponse.builder()
                 .user_id(userId)
-                .type(mediaType)
-                .average(ratings.stream().mapToDouble(Rating::getRating).average().orElse(0))
-                .count(ratings.size())
+                .username(user.getFirst_name() + " " + user.getLast_name())
+                .avatar(user.getAvatar())
                 .ratings(ratings)
+                .average(ratings.stream().mapToDouble(RatingByUserId::getRating).average().orElse(0))
+                .count(ratings.size())
                 .build();
     }
 
