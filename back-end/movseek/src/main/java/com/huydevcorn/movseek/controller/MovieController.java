@@ -7,8 +7,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,10 +66,20 @@ public class MovieController {
     @Operation(summary = "Get popular movies")
     public ApiResponse<MoviesListResponse<PopularMovies>> getPopularMovies(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int per_page
+            @RequestParam(defaultValue = "10") int per_page,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date,
+            @RequestParam(required = false) Double start_average_vote,
+            @RequestParam(required = false) Double end_average_vote,
+            @RequestParam(required = false) List<Integer> genre_ids,
+            @RequestParam(required = false) Integer time_order,
+            @RequestParam(required = false) Integer popularity_order,
+            @RequestParam(required = false) Integer vote_order,
+            @RequestParam(required = false) Integer title_order
     ) {
         return ApiResponse.<MoviesListResponse<PopularMovies>>builder()
-                .data(movieService.getPopularMovies(page, per_page))
+                .data(movieService.getPopularMovies(page, per_page, start_date, end_date, start_average_vote,
+                        end_average_vote, genre_ids, time_order, popularity_order, vote_order, title_order))
                 .build();
     }
 
@@ -75,10 +87,20 @@ public class MovieController {
     @Operation(summary = "Get upcoming movies")
     public ApiResponse<MoviesListResponse<UpcomingMovies>> getUpcomingMovies(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int per_page
+            @RequestParam(defaultValue = "10") int per_page,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date,
+            @RequestParam(required = false) Double start_average_vote,
+            @RequestParam(required = false) Double end_average_vote,
+            @RequestParam(required = false) List<Integer> genre_ids,
+            @RequestParam(required = false) Integer time_order,
+            @RequestParam(required = false) Integer popularity_order,
+            @RequestParam(required = false) Integer vote_order,
+            @RequestParam(required = false) Integer title_order
     ) {
         return ApiResponse.<MoviesListResponse<UpcomingMovies>>builder()
-                .data(movieService.getUpcomingMovies(page, per_page))
+                .data(movieService.getUpcomingMovies(page, per_page, start_date, end_date, start_average_vote,
+                        end_average_vote, genre_ids, time_order, popularity_order, vote_order, title_order))
                 .build();
     }
 
@@ -86,10 +108,20 @@ public class MovieController {
     @Operation(summary = "Get now playing movies")
     public ApiResponse<MoviesListResponse<NowPlayingMovies>> getNowPlayingMovies(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int per_page
+            @RequestParam(defaultValue = "10") int per_page,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date,
+            @RequestParam(required = false) Double start_average_vote,
+            @RequestParam(required = false) Double end_average_vote,
+            @RequestParam(required = false) List<Integer> genre_ids,
+            @RequestParam(required = false) Integer time_order,
+            @RequestParam(required = false) Integer popularity_order,
+            @RequestParam(required = false) Integer vote_order,
+            @RequestParam(required = false) Integer title_order
     ) {
         return ApiResponse.<MoviesListResponse<NowPlayingMovies>>builder()
-                .data(movieService.getNowPlayingMovies(page, per_page))
+                .data(movieService.getNowPlayingMovies(page, per_page, start_date, end_date, start_average_vote,
+                        end_average_vote, genre_ids, time_order, popularity_order, vote_order, title_order))
                 .build();
     }
 
@@ -97,10 +129,20 @@ public class MovieController {
     @Operation(summary = "Get top rated movies")
     public ApiResponse<MoviesListResponse<TopRatedMovies>> getTopRatedMovies(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int per_page
+            @RequestParam(defaultValue = "10") int per_page,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start_date,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end_date,
+            @RequestParam(required = false) Double start_average_vote,
+            @RequestParam(required = false) Double end_average_vote,
+            @RequestParam(required = false) List<Integer> genre_ids,
+            @RequestParam(required = false) Integer time_order,
+            @RequestParam(required = false) Integer popularity_order,
+            @RequestParam(required = false) Integer vote_order,
+            @RequestParam(required = false) Integer title_order
     ) {
         return ApiResponse.<MoviesListResponse<TopRatedMovies>>builder()
-                .data(movieService.getTopRatedMovies(page, per_page))
+                .data(movieService.getTopRatedMovies(page, per_page, start_date, end_date, start_average_vote,
+                        end_average_vote, genre_ids, time_order, popularity_order, vote_order, title_order))
                 .build();
     }
 

@@ -209,31 +209,6 @@ public class ReviewService {
                 .average(ratings.stream().mapToDouble(RatingByUserId::getRating).average().orElse(0))
                 .count(ratings.size())
                 .build();
-
-//        List<RatingByUserId> ratings = Flux.fromIterable(reviewRepository.findByUserId(userId))
-//                .filter(review -> review.getRating() != null)
-//                .flatMap(review -> clerkService.getUserInfo(review.getUser_id())
-//                        .map(user -> Rating.builder()
-//                                .user_id(review.getUser_id())
-//                                .media_id(review.getMedia_id())
-//                                .username(Optional.ofNullable(user.getFirst_name()).orElse("") + " " +
-//                                        Optional.ofNullable(user.getLast_name()).orElse(""))
-//                                .avatar(user.getAvatar())
-//                                .rating(review.getRating())
-//                                .created_at(review.getCreated_at())
-//                                .build()))
-//                .collectList()
-//                .block();
-
-//        ratings = (ratings != null) ? ratings : List.of();
-//
-//        return RatingResponse.builder()
-//                .user_id(userId)
-//                .type(mediaType)
-//                .average(ratings.stream().mapToDouble(Rating::getRating).average().orElse(0))
-//                .count(ratings.size())
-//                .ratings(ratings)
-//                .build();
     }
 
 
