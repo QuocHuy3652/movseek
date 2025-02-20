@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: MovSeek
+  data:
+    mongodb:
+      primary:
+        uri: mongodb+srv://${USERNAME1}:${PASSWORD1}@movseek.rwye8.mongodb.net/?retryWrites=true&w=majority&appName=MovSeek
+      secondary:
+        uri: mongodb+srv://${USERNAME2}:${PASSWORD2}@movseek.8uaod.mongodb.net/?retryWrites=true&w=majority&appName=MovSeek
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+
+clerk:
+  secret-key: ${CLERK_SECRET_KEY}
+  base-url: ${CLERK_URL}
