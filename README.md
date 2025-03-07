@@ -34,12 +34,14 @@ MovSeek is a platform that helps you search and explore popular movies and TV sh
 
 ### **🔹 Backend on Railway**
 
-- **MovSeek API**: [https://movseek-production.up.railway.app/api/v1](https://movseek-production.up.railway.app/api/v1)
-- 📄 **Swagger Docs**: [API Documentation](https://movseek-production.up.railway.app/api/v1/swagger-ui/index.html#/)
+- **MovSeek API**: [https://movseek.onrender.com/api/v1](https://movseek.onrender.com/api/v1)
+- 📄 **Swagger Docs**: [API Documentation](https://movseek.onrender.com/api/v1/swagger-ui/index.html#/)
 
 ### **🔹 Frontend on Vercel**
 
 - **MovSeek Website**: [https://movseek-website.vercel.app/](https://movseek-website.vercel.app/)
+
+*note: Due to using a free hosting version, the server will spin down after a period of inactivity, which can delay the first request by 1 minute or more. Please call the API at [API Documentation](https://movseek.onrender.com/api/v1/swagger-ui/index.html#/) on a browser a few minutes beforehand to ensure a smoother experience.
 
 ---
 
